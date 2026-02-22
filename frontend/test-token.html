@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Save Token</title>
+</head>
+
+<body>
+    <h1>Save Token for Dashboard Testing</h1>
+    <p>This page will log you in and save the token to localStorage.</p>
+    <button onclick="loginAndSaveToken()">Login and Save Token</button>
+    <p id="status"></p>
+
+    <script>
+        async function loginAndSaveToken() {
+            const status = document.getElementById('status');
+            status.textContent = 'Logging in...';
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: 'pankhi123',
+                        password: 'mypassword'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Save token to localStorage
+                    localStorage.setItem('expense_token', data.token);
+                    status.textContent = '✅ Token saved! You can now visit dashboard.html';
+                    status.style.color = 'green';
+
+                    // Redirect to dashboard after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    status.textContent = '❌ Login failed: ' + data.message;
+                    status.style.color = 'red';
+                }
+            } catch (error) {
+                status.textContent = '❌ Error: ' + error.message;
+                status.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense - Daily Expense Tracker</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Modern Design System -->
+    <link rel="stylesheet" href="assets/modern-design.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- SIDEBAR -->
+            <nav class="col-md-2 sidebar">
+                <div class="sidebar-brand">
+                    <h4>💰 Expense Tracker</h4>
+                </div>
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <span>📊</span> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="add-expense.html">
+                            <span>➕</span> Add Expense
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view-expenses.html">
+                            <span>📋</span> View Expenses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">
+                            <span>👤</span> Profile
+                        </a>
+                    </li>
+                </ul>
+
+                <div style="margin-top: auto; padding-top: 2rem;">
+                    <button id="logoutBtn" class="btn btn-danger w-100" style="border-radius: 0.75rem;">
+                        🚪 Logout
+                    </button>
+                </div>
+            </nav>
+
+            <!-- MAIN CONTENT -->
+            <main class="col-md-10 main-content">
+                <!-- Page Header -->
+                <div class="dashboard-header animate-fade-in-up">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Add New Expense 💸</h1>
+                            <p>Track your spending and stay within budget</p>
+                        </div>
+                        <button class="btn-modern btn-primary" data-bs-toggle="modal" data-bs-target="#limitModal">
+                            ⚙️ Set Spending Limits
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Expense Form -->
+                <div class="row justify-content-center animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="col-lg-8">
+                        <div class="modern-card">
+                            <form id="expenseForm">
+                                <div class="row g-3">
+                                    <!-- Date -->
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 600; color: #2d3436;">📅 Date
+                                            *</label>
+                                        <input type="date" id="date" class="form-control-modern" required>
+                                        <small class="text-muted">When did this expense occur?</small>
+                                    </div>
+
+                                    <!-- Category -->
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 600; color: #2d3436;">🏷️ Category
+                                            *</label>
+                                        <select id="category" class="form-control-modern" required>
+                                            <option value="">Select Category</option>
+                                            <option value="Food">🍔 Food</option>
+                                            <option value="Travel">🚗 Travel</option>
+                                            <option value="Bills">📄 Bills</option>
+                                            <option value="Shopping">🛍️ Shopping</option>
+                                            <option value="Entertainment">🎬 Entertainment</option>
+                                            <option value="Healthcare">🏥 Healthcare</option>
+                                            <option value="Education">📚 Education</option>
+                                            <option value="Other">📦 Other</option>
+                                        </select>
+                                        <small class="text-muted">What type of expense is this?</small>
+                                    </div>
+
+                                    <!-- Amount -->
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 600; color: #2d3436;">💰 Amount
+                                            (₹) *</label>
+                                        <input type="number" id="amount" class="form-control-modern" step="0.01"
+                                            placeholder="0.00" required>
+                                        <small class="text-muted">How much did you spend?</small>
+                                    </div>
+
+                                    <!-- Note -->
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 600; color: #2d3436;">📝 Note
+                                            (Optional)</label>
+                                        <input type="text" id="note" class="form-control-modern"
+                                            placeholder="e.g., Lunch with friends">
+                                        <small class="text-muted">Add a description</small>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="col-12 mt-4">
+                                        <div class="d-flex gap-3">
+                                            <button type="submit" id="saveBtn"
+                                                class="btn-modern btn-primary flex-grow-1">
+                                                💾 Save Expense
+                                            </button>
+                                            <button type="button" class="btn-modern"
+                                                style="background: var(--gray-200); color: var(--gray-700);"
+                                                onclick="document.getElementById('expenseForm').reset();">
+                                                🔄 Clear Form
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="row justify-content-center mt-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="col-lg-8">
+                        <div class="modern-card"
+                            style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 1px solid #667eea30;">
+                            <h6 style="font-weight: 700; color: #667eea; margin-bottom: 1rem;">💡 Quick Tips</h6>
+                            <ul style="margin: 0; padding-left: 1.5rem; color: #495057;">
+                                <li>Set spending limits to get warnings before overspending</li>
+                                <li>Add notes to remember what each expense was for</li>
+                                <li>Check your dashboard regularly to track your spending patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Set Limit Modal -->
+    <div class="modal fade" id="limitModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 1rem; border: none;">
+                <div class="modal-header"
+                    style="background: var(--gradient-primary); color: white; border-radius: 1rem 1rem 0 0;">
+                    <h5 class="modal-title">⚙️ Set Spending Limit</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="padding: 2rem;">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600;">Period</label>
+                        <select id="limitPeriod" class="form-control-modern">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly" selected>Monthly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600;">Category (Optional)</label>
+                        <select id="limitCategory" class="form-control-modern">
+                            <option value="">All Categories</option>
+                            <option value="Food">🍔 Food</option>
+                            <option value="Travel">🚗 Travel</option>
+                            <option value="Bills">📄 Bills</option>
+                            <option value="Shopping">🛍️ Shopping</option>
+                            <option value="Entertainment">🎬 Entertainment</option>
+                            <option value="Healthcare">🏥 Healthcare</option>
+                            <option value="Education">📚 Education</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                        <small class="text-muted">Leave blank to set limit for all expenses</small>
+                    </div>
+
+                    <!-- Existing Limit Alert -->
+                    <div id="existingLimitAlert" class="alert alert-info d-none mb-3">
+                        <strong>📝 Existing Limit Found:</strong>
+                        <div id="existingLimitDetails" class="mt-2"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600;">Limit Amount (₹)</label>
+                        <input type="number" id="limitAmount" class="form-control-modern" step="100"
+                            placeholder="e.g., 5000">
+                        <small class="text-muted">Maximum amount you want to spend</small>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--gray-200);">
+                    <button type="button" class="btn-modern"
+                        style="background: var(--gray-200); color: var(--gray-700);"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modern btn-primary" id="saveLimitBtn">💾 Save Limit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="spinner" class="spinner-overlay" style="display: none;">
+        <div class="spinner-content">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/spinner.js"></script>
+
+    <script>
+        // Get token
+        function getToken() {
+            return localStorage.getItem('expense_token');
+        }
+
+        // Check authentication
+        function checkAuth() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('expense_token');
+                localStorage.removeItem('user_info');
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Set today's date
+        function setToday() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!checkAuth()) return;
+            setToday();
+            document.getElementById('category').focus();
+        });
+    </script>
+
+    <!-- Set Limit Functionality -->
+    <script>
+        let allLimits = [];
+
+        // Load all limits when modal opens
+        document.getElementById('limitModal').addEventListener('show.bs.modal', async () => {
+            const token = getToken();
+
+            try {
+                const res = await fetch('/api/dashboard/limits', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    allLimits = data.limits || [];
+                    checkExistingLimit();
+                }
+            } catch (err) {
+                console.error('Error loading limits:', err);
+            }
+        });
+
+        // Check for existing limit when period or category changes
+        document.getElementById('limitPeriod').addEventListener('change', checkExistingLimit);
+        document.getElementById('limitCategory').addEventListener('change', checkExistingLimit);
+
+        function checkExistingLimit() {
+            const period = document.getElementById('limitPeriod').value;
+            const category = document.getElementById('limitCategory').value;
+
+            const existing = allLimits.find(l =>
+                l.period === period &&
+                (l.category === category || (!l.category && !category))
+            );
+
+            const alertDiv = document.getElementById('existingLimitAlert');
+            const detailsDiv = document.getElementById('existingLimitDetails');
+            const amountInput = document.getElementById('limitAmount');
+            const modalTitle = document.querySelector('#limitModal .modal-title');
+            const saveBtn = document.getElementById('saveLimitBtn');
+
+            if (existing) {
+                alertDiv.classList.remove('d-none');
+                detailsDiv.innerHTML = `
+                    <strong>Period:</strong> ${capitalizeFirst(existing.period)}<br>
+                    <strong>Category:</strong> ${existing.category || 'All Categories'}<br>
+                    <strong>Current Limit:</strong> ₹${existing.limit_amount.toFixed(2)}<br>
+                    <small class="text-muted">Enter a new amount below to update this limit</small>
+                `;
+
+                amountInput.value = existing.limit_amount;
+                amountInput.placeholder = `Current: ₹${existing.limit_amount}`;
+                modalTitle.textContent = '✏️ Edit Spending Limit';
+                saveBtn.innerHTML = '💾 Update Limit';
+            } else {
+                alertDiv.classList.add('d-none');
+                detailsDiv.innerHTML = '';
+                amountInput.value = '';
+                amountInput.placeholder = 'e.g., 5000';
+                modalTitle.textContent = '⚙️ Set Spending Limit';
+                saveBtn.innerHTML = '💾 Save Limit';
+            }
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Set spending limit
+        document.getElementById('saveLimitBtn').addEventListener('click', async () => {
+            const period = document.getElementById('limitPeriod').value;
+            const category = document.getElementById('limitCategory').value;
+            const limitAmount = document.getElementById('limitAmount').value;
+
+            if (!limitAmount) {
+                alert('Please enter limit amount');
+                return;
+            }
+
+            const token = getToken();
+            const btn = document.getElementById('saveLimitBtn');
+            btn.disabled = true;
+            btn.textContent = '💾 Saving...';
+
+            try {
+                const res = await fetch('/api/dashboard/set-limit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        period,
+                        category: category || null,
+                        limitAmount: Number(limitAmount)
+                    })
+                });
+
+                const data = await res.json();
+                btn.disabled = false;
+                btn.textContent = '💾 Save Limit';
+
+                if (data.success) {
+                    bootstrap.Modal.getInstance(document.getElementById('limitModal')).hide();
+                    document.getElementById('limitAmount').value = '';
+                    document.getElementById('limitCategory').value = '';
+                    document.getElementById('existingLimitAlert').classList.add('d-none');
+                    alert('✅ Spending limit saved successfully! View it on the dashboard.');
+                } else {
+                    alert(data.message || 'Failed to set limit');
+                }
+            } catch (err) {
+                btn.disabled = false;
+                btn.textContent = '💾 Save Limit';
+                console.error('Set limit error:', err);
+                alert('Failed to set limit');
+            }
+        });
+    </script>
+
+    <!-- Save Expense Functionality -->
+    <script>
+        const expenseForm = document.getElementById('expenseForm');
+        const saveBtn = document.getElementById('saveBtn');
+
+        expenseForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const token = getToken();
+            if (!token) {
+                alert('You are not logged in. Please login again.');
+                return window.location.href = 'login.html';
+            }
+
+            const date = document.getElementById('date').value;
+            const category = document.getElementById('category').value;
+            const amount = document.getElementById('amount').value;
+            const note = document.getElementById('note').value.trim();
+
+            if (!date || !category || !amount) {
+                alert('Please fill in all required fields (Date, Category, and Amount).');
+                return;
+            }
+
+            if (Number(amount) <= 0) {
+                alert('Amount must be greater than 0.');
+                return;
+            }
+
+            // STEP 1: Check if this expense will exceed any limits
+            saveBtn.disabled = true;
+            saveBtn.textContent = '🔍 Checking limits...';
+
+            try {
+                const checkRes = await fetch('/api/dashboard/check-limit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        date,
+                        category,
+                        amount: Number(amount)
+                    })
+                });
+
+                const checkData = await checkRes.json();
+
+                // STEP 2: If there are warnings, show them to user
+                if (checkData.hasWarnings && checkData.warnings.length > 0) {
+                    let warningMessage = '⚠️ SPENDING LIMIT WARNING!\n\n';
+
+                    checkData.warnings.forEach(warning => {
+                        if (warning.severity === 'exceeded') {
+                            warningMessage += `🔴 ${warning.period} - ${warning.category}\n`;
+                            warningMessage += `   Current: ₹${warning.currentSpent.toFixed(2)}\n`;
+                            warningMessage += `   Limit: ₹${warning.limitAmount.toFixed(2)}\n`;
+                            warningMessage += `   After this expense: ₹${warning.newTotal.toFixed(2)}\n`;
+                            warningMessage += `   OVER BUDGET BY: ₹${warning.overage.toFixed(2)}\n\n`;
+                        } else if (warning.severity === 'warning') {
+                            warningMessage += `🟡 ${warning.period} - ${warning.category}\n`;
+                            warningMessage += `   Current: ₹${warning.currentSpent.toFixed(2)}\n`;
+                            warningMessage += `   Limit: ₹${warning.limitAmount.toFixed(2)}\n`;
+                            warningMessage += `   After this expense: ₹${warning.newTotal.toFixed(2)}\n`;
+                            warningMessage += `   Remaining: ₹${warning.remaining.toFixed(2)} (${warning.percentage}%)\n\n`;
+                        }
+                    });
+
+                    warningMessage += 'Do you want to proceed anyway?';
+
+                    const proceed = confirm(warningMessage);
+
+                    if (!proceed) {
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = '💾 Save Expense';
+                        return;
+                    }
+                }
+
+                // STEP 3: Proceed with adding the expense
+                saveBtn.textContent = '💾 Saving...';
+
+                const res = await fetch('/api/expenses/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        date,
+                        category,
+                        amount: Number(amount),
+                        note: note || null
+                    })
+                });
+
+                const data = await res.json();
+
+                if (!data.success) {
+                    if (res.status === 401) {
+                        alert('Your session has expired. Please login again.');
+                        localStorage.removeItem('expense_token');
+                        return window.location.href = 'login.html';
+                    }
+                    alert(data.message || 'Failed to add expense.');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = '💾 Save Expense';
+                    return;
+                }
+
+                alert(`✅ Expense added successfully! (₹${amount})`);
+                document.getElementById('amount').value = '';
+                document.getElementById('note').value = '';
+                document.getElementById('amount').focus();
+
+            } catch (err) {
+                console.error('Error saving expense:', err);
+                alert('Something went wrong while saving expense. Please check your connection.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = '💾 Save Expense';
+            }
+        });
+    </script>
+</body>
+
+</html>
