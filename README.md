@@ -132,20 +132,6 @@ Daily Expense Tracker/
 │   └── login.html       # Landing page
 ├── database/            # Local SQLite storage
 └── docs/                # Architecture and Guides
-```
-
----
-
-## 🎨 Screenshots
-
-| Dashboard Overview | Budget Warning System |
-| :---: | :---: |
-| ![Dashboard](https://via.placeholder.com/400x250?text=Interactive+Dashboard+View) | ![Warning](https://via.placeholder.com/400x250?text=Proactive+Limit+Warning) |
-
-| Expense Management | Spending Limits |
-| :---: | :---: |
-| ![Expenses](https://via.placeholder.com/400x250?text=Detailed+Expense+History) | ![Limits](https://via.placeholder.com/400x250?text=Visual+Budget+Tracking) |
-
 ---
 
 ## 🚧 Roadmap
